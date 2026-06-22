@@ -128,8 +128,12 @@ a{color:inherit;text-decoration:none}
 .scroll-hint::after{content:"";width:1px;height:42px;background:linear-gradient(var(--ink-faint),transparent);animation:lineflow 2.2s var(--ease) infinite}
 @keyframes lineflow{0%{transform:scaleY(.2);transform-origin:top;opacity:0}40%{opacity:1}100%{transform:scaleY(1);transform-origin:top;opacity:0}}
 
+/* ===== animated neon lines background ===== */
+#fxCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
 /* ===== generic section spacing ===== */
-section{position:relative}
+section{position:relative;z-index:1}
+.footer{z-index:1}
 .pad{padding:clamp(6rem,14vw,11rem) 0}
 
 /* reveal base */
@@ -169,7 +173,7 @@ section{position:relative}
 .badge{position:absolute;top:-.7rem;right:1.6rem;background:var(--gold);color:#0a0a0c;font-size:.72rem;letter-spacing:.1em;padding:.35em 1em;border-radius:999px}
 
 /* ===== Process ===== */
-.process{background:var(--bg-soft)}
+.process{background:linear-gradient(180deg,rgba(255,255,255,.018),transparent 60%)}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem}
 @media(max-width:900px){.steps{grid-template-columns:1fr;gap:3rem}}
 .step{position:relative}
@@ -203,7 +207,7 @@ section{position:relative}
 .final__cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
 
 /* ===== Footer ===== */
-.footer{border-top:1px solid var(--line);padding:3rem 0}
+.footer{position:relative;border-top:1px solid var(--line);padding:3rem 0}
 .footer__inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem}
 .footer small{color:var(--ink-faint);font-size:.85rem;letter-spacing:.04em}
 
@@ -225,6 +229,9 @@ section{position:relative}
 </style>
 </head>
 <body>
+
+<!-- ===== Animated neon lines background ===== -->
+<canvas id="fxCanvas" aria-hidden="true"></canvas>
 
 <!-- ===== Header ===== -->
 <header class="header" id="header">
@@ -483,6 +490,120 @@ section{position:relative}
       gsap.set('.reveal',{opacity:1,y:0});
     }
   }
+})();
+</script>
+
+<!-- ===== Neon slicing lines background ===== -->
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canvas = document.getElementById('fxCanvas');
+  if(!canvas || reduce) return;
+  var ctx = canvas.getContext('2d');
+  var W=0, H=0, DIAG=0, dpr=Math.min(window.devicePixelRatio||1, 2);
+
+  // neon palette (brand gold + cool accents)
+  var COLORS = [
+    [230,205,143],   // gold-soft
+    [201,162,75],    // gold
+    [230,205,143],
+    [150,225,255],   // cyan accent (occasional)
+    [255,236,190]    // warm white
+  ];
+
+  function resize(){
+    W = canvas.clientWidth; H = canvas.clientHeight;
+    DIAG = Math.sqrt(W*W + H*H);
+    canvas.width = Math.round(W*dpr); canvas.height = Math.round(H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function rand(a,b){ return a + Math.random()*(b-a); }
+
+  function Line(){ this.reset(true); }
+  Line.prototype.reset = function(first){
+    // mostly horizontal / vertical lines, with a tiny jitter so they feel alive
+    var horiz = Math.random()<0.5;
+    var jitter = rand(-0.03, 0.03);
+    var ang = (horiz ? 0 : Math.PI/2) + jitter;
+    // keep lines in the outer 50% (top/bottom or left/right quarters); avoid central core
+    function outer(size){ return (Math.random()<0.5 ? rand(0.05,0.25) : rand(0.75,0.95)) * size; }
+    var cx, cy;
+    if(horiz){ cy = outer(H); cx = W*0.5; }   // horizontal line sits in top/bottom band
+    else     { cx = outer(W); cy = H*0.5; }   // vertical line sits in left/right band
+    var dx = Math.cos(ang), dy = Math.sin(ang);
+    this.p0 = { x: cx - dx*DIAG, y: cy - dy*DIAG };
+    this.p1 = { x: cx + dx*DIAG, y: cy + dy*DIAG };
+    this.col = COLORS[(Math.random()<0.18?3:Math.floor(rand(0,3.999)))|0];
+    this.w = rand(0.8,1.8);
+    this.drawDur = rand(620,980);   // ms: slice grows across
+    this.holdDur = rand(220,520);   // ms: full line glows
+    this.fadeDur = rand(520,900);   // ms: fade out
+    this.delay   = first ? rand(0,2600) : rand(500,2800);
+    this.t = -this.delay;           // negative = waiting
+  };
+  Line.prototype.step = function(dt){
+    this.t += dt;
+    if(this.t < 0) return; // still delayed
+    var total = this.drawDur + this.holdDur + this.fadeDur;
+    if(this.t > total){ this.reset(false); return; }
+
+    var p0=this.p0, p1=this.p1, prog, alpha, endX, endY, headX=null, headY=null;
+    if(this.t < this.drawDur){            // slicing in
+      prog = this.t/this.drawDur;
+      var e = 1-Math.pow(1-prog,3);       // easeOutCubic
+      endX = p0.x + (p1.x-p0.x)*e;
+      endY = p0.y + (p1.y-p0.y)*e;
+      headX = endX; headY = endY;
+      alpha = 0.85;
+    } else if(this.t < this.drawDur+this.holdDur){ // hold full
+      endX = p1.x; endY = p1.y; alpha = 0.9;
+    } else {                              // fade out
+      var fp = (this.t - this.drawDur - this.holdDur)/this.fadeDur;
+      endX = p1.x; endY = p1.y; alpha = 0.9*(1-fp);
+    }
+
+    var c=this.col, rgb=c[0]+','+c[1]+','+c[2];
+    ctx.save();
+    ctx.globalCompositeOperation='lighter';
+    // glow halo
+    ctx.shadowBlur=16; ctx.shadowColor='rgba('+rgb+','+(alpha*0.9)+')';
+    ctx.strokeStyle='rgba('+rgb+','+(alpha*0.45)+')';
+    ctx.lineWidth=this.w*2.4;
+    ctx.beginPath(); ctx.moveTo(p0.x,p0.y); ctx.lineTo(endX,endY); ctx.stroke();
+    // bright core
+    ctx.shadowBlur=0;
+    ctx.strokeStyle='rgba('+Math.min(255,c[0]+40)+','+Math.min(255,c[1]+40)+','+Math.min(255,c[2]+40)+','+alpha+')';
+    ctx.lineWidth=this.w;
+    ctx.beginPath(); ctx.moveTo(p0.x,p0.y); ctx.lineTo(endX,endY); ctx.stroke();
+    // leading head spark while slicing
+    if(headX!==null){
+      ctx.shadowBlur=22; ctx.shadowColor='rgba('+rgb+',1)';
+      ctx.fillStyle='rgba(255,255,255,'+alpha+')';
+      ctx.beginPath(); ctx.arc(headX,headY,this.w*1.7,0,Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+  };
+
+  var lines=[]; for(var i=0;i<3;i++) lines.push(new Line());
+
+  var last=performance.now(), running=true;
+  function frame(now){
+    if(!running){ return; }
+    var dt=Math.min(now-last,50); last=now;
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<lines.length;i++) lines[i].step(dt);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  // pause when tab hidden (saves battery, avoids dt jumps)
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden){ running=false; }
+    else if(!running){ running=true; last=performance.now(); requestAnimationFrame(frame); }
+  });
 })();
 </script>
 </body>
