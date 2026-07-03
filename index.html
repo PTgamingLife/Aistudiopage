@@ -231,6 +231,60 @@ section{position:relative;z-index:1}
 .final p{color:var(--ink-dim);font-size:clamp(1rem,2vw,1.18rem);margin-bottom:2.8rem;max-width:32em;margin-inline:auto}
 .final__cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
 
+/* ===== Course enrolment ===== */
+.course{border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(201,162,75,.05),transparent 40%)}
+.course .head-block{margin-inline:auto;text-align:center;max-width:760px}
+.course__tag{display:inline-block;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-soft);border:1px solid var(--line);border-radius:999px;padding:.5em 1.4em;margin-bottom:1.6rem}
+.course__lead{color:var(--ink-dim);font-size:clamp(1.05rem,2.2vw,1.3rem);margin-top:1rem}
+/* schedule */
+.course-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;margin:3rem auto 0;max-width:900px}
+.course-meta div{flex:1 1 240px;display:flex;align-items:center;gap:.9rem;border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.4rem;background:rgba(255,255,255,.02);font-size:1rem}
+.course-meta b{color:var(--gold-soft);font-weight:500}
+.course-meta svg{flex:0 0 auto;color:var(--gold)}
+/* syllabus */
+.course h3.block-h{text-align:center;font-family:"Cormorant","Noto Serif TC",serif;font-size:clamp(1.5rem,3.6vw,2.2rem);font-weight:500;margin:4.5rem 0 2rem;color:var(--ink)}
+.syllabus{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+@media(max-width:720px){.syllabus{grid-template-columns:1fr}}
+.lesson{display:flex;align-items:center;gap:1.1rem;border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.3rem;background:linear-gradient(180deg,rgba(255,255,255,.025),transparent);transition:border-color .5s var(--ease),transform .5s var(--ease)}
+.lesson:hover{border-color:rgba(201,162,75,.4);transform:translateY(-3px)}
+.lesson span{font-family:"Cormorant",serif;font-style:italic;font-weight:600;font-size:2rem;line-height:1;color:var(--gold-soft);min-width:1.3em;text-align:center}
+.lesson em{display:block;font-style:normal;font-size:.8rem;letter-spacing:.06em;color:var(--ink-faint);margin-bottom:.15rem}
+.lesson b{font-weight:500;font-size:1.05rem}
+/* two columns */
+.course-cols{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:2.4rem}
+@media(max-width:720px){.course-cols{grid-template-columns:1fr}}
+.course-col{border:1px solid var(--line);border-radius:16px;padding:2rem 1.8rem;background:rgba(255,255,255,.02)}
+.course-col h4{font-size:1.15rem;font-weight:600;margin-bottom:1.3rem;color:var(--gold-soft);letter-spacing:.03em}
+.course-col ul{list-style:none;display:flex;flex-direction:column;gap:1rem}
+.course-col li{display:flex;gap:.7rem;font-size:.98rem;color:var(--ink);line-height:1.6}
+.course-col li b{color:var(--gold-soft);font-weight:600}
+.course-col.learn li::before{content:"✦";color:var(--gold);flex:0 0 auto}
+.course-col.result li{counter-increment:res;align-items:flex-start}
+.course-col.result{counter-reset:res}
+.course-col.result li::before{content:counter(res);flex:0 0 auto;width:1.5em;height:1.5em;border-radius:50%;background:rgba(201,162,75,.15);color:var(--gold-soft);font-size:.78rem;display:grid;place-items:center;margin-top:.15em}
+/* enrol bar */
+.enroll{margin-top:3.5rem;border:1px solid rgba(201,162,75,.4);border-radius:20px;padding:2.4rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.6rem;background:linear-gradient(180deg,rgba(201,162,75,.1),transparent)}
+.enroll__price{display:flex;align-items:baseline;gap:.5rem}
+.enroll__price .cur{font-size:1.2rem;color:var(--ink-dim)}
+.enroll__price .amt{font-family:"Cormorant",serif;font-style:italic;font-weight:600;font-size:clamp(3rem,7vw,4.5rem);line-height:1;color:var(--gold-soft)}
+.enroll__price .per{color:var(--ink-dim);font-size:.95rem}
+.enroll__note{color:var(--ink-dim);font-size:.9rem;margin-top:.4rem}
+.enroll .btn{font-size:1.05rem;padding:1.1em 2.4em}
+/* modal */
+.modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:1.5rem;background:rgba(6,6,8,.75);backdrop-filter:blur(6px)}
+.modal.open{display:flex}
+.modal__box{width:100%;max-width:440px;border:1px solid var(--line);border-radius:20px;background:var(--bg-soft);padding:2.4rem;position:relative}
+.modal__box h3{font-size:1.5rem;font-weight:600;margin-bottom:.4rem}
+.modal__box p.sub{color:var(--ink-dim);font-size:.92rem;margin-bottom:1.6rem}
+.modal__close{position:absolute;top:1.1rem;right:1.2rem;background:none;border:none;color:var(--ink-dim);font-size:1.6rem;line-height:1;cursor:pointer;transition:color .3s}
+.modal__close:hover{color:var(--ink)}
+.field{margin-bottom:1.1rem}
+.field label{display:block;font-size:.85rem;color:var(--ink-dim);margin-bottom:.4rem;letter-spacing:.04em}
+.field input{width:100%;padding:.85em 1em;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--ink);font-family:inherit;font-size:1rem}
+.field input:focus{outline:none;border-color:var(--gold)}
+.modal .btn{width:100%;justify-content:center;margin-top:.6rem}
+.modal__pay{display:flex;align-items:center;justify-content:center;gap:.5rem;font-size:.8rem;color:var(--ink-faint);margin-top:1rem}
+
 /* ===== Footer ===== */
 .footer{position:relative;border-top:1px solid var(--line);padding:3rem 0}
 .footer__inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem}
@@ -267,6 +321,7 @@ section{position:relative;z-index:1}
       <a href="#pricing" data-anchor>方案</a>
       <a href="#process" data-anchor>流程</a>
       <a href="#works" data-anchor>作品</a>
+      <a href="#course" data-anchor>課程</a>
       <a href="#contact" class="btn btn-primary header__cta" data-anchor>預約諮詢</a>
     </nav>
   </div>
@@ -437,6 +492,97 @@ section{position:relative;z-index:1}
     </div>
   </div>
 </section>
+
+<!-- ===== Course enrolment ===== -->
+<section class="pad course" id="course">
+  <div class="wrap">
+    <div class="head-block">
+      <span class="course__tag reveal">Cloud 101 · AI 系列課程</span>
+      <h2 class="section-title reveal">AI 教學 <span class="it">0 到 1</span><br>快速上手・變現課程</h2>
+      <p class="course__lead reveal">從零開始,打造你的 AI 實力!8 堂課帶你做出第一個能變現的 AI 成果。</p>
+    </div>
+
+    <!-- schedule -->
+    <div class="course-meta reveal">
+      <div>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <span>上課日期<br><b>2025 / 7 / 19(日)</b></span>
+      </div>
+      <div>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span>上課時間<br><b>10:00 – 17:00</b></span>
+      </div>
+      <div>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5a2 2 0 0 1 2-2h7v18H6a2 2 0 0 1-2-2zM20 5a2 2 0 0 0-2-2h-5v18h5a2 2 0 0 0 2-2z"/></svg>
+        <span>完整訓練<br><b>8 堂課 × 6 小時</b></span>
+      </div>
+    </div>
+
+    <!-- syllabus -->
+    <h3 class="block-h reveal">課程內容</h3>
+    <div class="syllabus">
+      <div class="lesson reveal"><span>1</span><div><em>第 1 堂</em><b>AI 思維破冰</b></div></div>
+      <div class="lesson reveal"><span>2</span><div><em>第 2 堂</em><b>Prompt 工程</b></div></div>
+      <div class="lesson reveal"><span>3</span><div><em>第 3 堂</em><b>AI 工作流設計</b></div></div>
+      <div class="lesson reveal"><span>4</span><div><em>第 4 堂</em><b>職場 AI 實戰</b></div></div>
+      <div class="lesson reveal"><span>5</span><div><em>第 5 堂</em><b>製作 AI 商業工具</b></div></div>
+      <div class="lesson reveal"><span>6</span><div><em>第 6 堂</em><b>資料整理術</b></div></div>
+      <div class="lesson reveal"><span>7</span><div><em>第 7 堂</em><b>打造第二大腦</b></div></div>
+      <div class="lesson reveal"><span>8</span><div><em>第 8 堂</em><b>整合實作設計</b></div></div>
+    </div>
+
+    <!-- learn / results -->
+    <div class="course-cols">
+      <div class="course-col learn reveal">
+        <h4>你將學會</h4>
+        <ul>
+          <li>AI 工作流 × 自動化流程設計</li>
+          <li>五大職場場景 AI 應用</li>
+          <li>無程式碼打造 AI 商業工具</li>
+          <li>建立個人 AI 第二大腦</li>
+        </ul>
+      </div>
+      <div class="course-col result reveal">
+        <h4>學員真實成果</h4>
+        <ul>
+          <li>大學系統工具 → 工作時間 <b>↓30%</b></li>
+          <li>減重社群工具 → 當日營業額 <b>↑2~3 倍</b></li>
+          <li>菜農客服系統 → 銷售額 <b>↑18%</b></li>
+          <li>觀光餐廳 → <b>四國語言網頁</b></li>
+          <li>面吉診 AI → 疾病相似度 <b>74%</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- enrol -->
+    <div class="enroll reveal">
+      <div>
+        <div class="enroll__price"><span class="cur">NT$</span><span class="amt">2,500</span><span class="per">/ 全課程</span></div>
+        <p class="enroll__note">名額有限・付款後以 LINE Pay 完成報名</p>
+      </div>
+      <button type="button" class="btn btn-primary" id="enrollBtn">立即報名・名額有限</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Enrolment modal ===== -->
+<div class="modal" id="enrollModal" role="dialog" aria-modal="true" aria-labelledby="enrollTitle">
+  <div class="modal__box">
+    <button class="modal__close" id="modalClose" aria-label="關閉">&times;</button>
+    <h3 id="enrollTitle">報名課程</h3>
+    <p class="sub">0 到 1 AI 快速上手變現課程 · NT$ 2,500</p>
+    <form id="enrollForm">
+      <div class="field"><label for="f-name">姓名</label><input id="f-name" name="name" type="text" required autocomplete="name"></div>
+      <div class="field"><label for="f-phone">手機</label><input id="f-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel"></div>
+      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
+      <button type="submit" class="btn btn-primary">確認並前往付款 · NT$ 2,500</button>
+    </form>
+    <div class="modal__pay">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+      安全付款 · 由 LINE Pay 處理
+    </div>
+  </div>
+</div>
 
 <!-- ===== Footer ===== -->
 <footer class="footer">
@@ -650,6 +796,56 @@ section{position:relative;z-index:1}
     });
   }, { threshold:[0,0.5,1], rootMargin:'-18% 0px -18% 0px' });
   works.forEach(function(w){ io.observe(w); });
+})();
+</script>
+
+<!-- ===== Course enrolment modal + LINE Pay handoff ===== -->
+<script>
+(function(){
+  // ── Payment config ──────────────────────────────────────────────
+  // 貼上 LINE Pay 付款連結(定額 NT$2,500)。留空則暫時導向 LINE 由專人協助報名付款。
+  var LINE_PAY_URL = "";
+  var LINE_FALLBACK = "https://line.me/ti/p/ZC-w2BuPoi"; // 加 LINE 完成報名
+  var COURSE_NAME = "0 到 1 AI 快速上手變現課程";
+  var PRICE = 2500;
+  // ────────────────────────────────────────────────────────────────
+
+  var modal = document.getElementById('enrollModal');
+  var openBtn = document.getElementById('enrollBtn');
+  var closeBtn = document.getElementById('modalClose');
+  var form = document.getElementById('enrollForm');
+  if(!modal || !openBtn) return;
+
+  function open(){ modal.classList.add('open'); document.getElementById('f-name').focus(); }
+  function close(){ modal.classList.remove('open'); }
+
+  openBtn.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  modal.addEventListener('click', function(e){ if(e.target===modal) close(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && modal.classList.contains('open')) close(); });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var data = {
+      name: form.name.value.trim(),
+      phone: form.phone.value.trim(),
+      email: form.email.value.trim(),
+      course: COURSE_NAME,
+      price: PRICE
+    };
+    // 暫存報名資料(方便日後串接後端/Supabase 或人工核對)
+    try { localStorage.setItem('enroll:'+Date.now(), JSON.stringify(data)); } catch(_){}
+
+    if(LINE_PAY_URL){
+      // 導向 LINE Pay 付款連結
+      window.location.href = LINE_PAY_URL;
+    } else {
+      // 尚未設定付款連結 → 導向 LINE,由專人協助完成付款
+      var msg = encodeURIComponent('我要報名「'+COURSE_NAME+'」NT$'+PRICE+'\n姓名:'+data.name+'\n手機:'+data.phone+'\nEmail:'+data.email);
+      window.open(LINE_FALLBACK, '_blank', 'noopener');
+      close();
+    }
+  });
 })();
 </script>
 </body>
