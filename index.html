@@ -193,17 +193,27 @@ section{position:relative;z-index:1}
   background:linear-gradient(155deg,rgba(255,255,255,.03),transparent 60%);
   transition:transform .6s var(--ease),border-color .6s var(--ease);
 }
-.work:hover{transform:translateY(-6px);border-color:rgba(201,162,75,.4)}
-.work:hover .work__big{opacity:.26}
+.work:hover{transform:translateY(-6px);border-color:rgba(201,162,75,.55)}
 /* giant metric watermark, right-anchored, ~full box height, faded on the left */
 .work__big{
-  position:absolute;top:50%;right:.15rem;transform:translateY(-50%);z-index:0;
+  position:absolute;top:50%;right:.15rem;z-index:0;
+  transform:translateY(-50%) scale(.985);transform-origin:100% 50%;
   font-family:"Cormorant","Noto Serif TC",serif;font-style:italic;font-weight:600;
   font-size:clamp(9rem,26vw,20rem);line-height:.66;letter-spacing:-.03em;
-  white-space:nowrap;color:var(--gold-soft);opacity:.2;pointer-events:none;
-  transition:opacity .6s var(--ease);
+  white-space:nowrap;color:var(--gold-soft);opacity:.15;pointer-events:none;
+  filter:none;
+  transition:opacity .5s var(--ease),transform .5s var(--ease),filter .5s var(--ease),color .5s var(--ease);
   -webkit-mask-image:linear-gradient(90deg,transparent 6%,#000 52%);
           mask-image:linear-gradient(90deg,transparent 6%,#000 52%);
+}
+/* pop out as a solid entity on mouse hover (desktop) or when scrolled into view (mobile) */
+.work:hover .work__big,
+.work.pop .work__big{
+  opacity:.95;color:var(--gold-soft);
+  transform:translateY(-50%) scale(1.07);
+  filter:drop-shadow(0 8px 34px rgba(201,162,75,.4));
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 22%);
+          mask-image:linear-gradient(90deg,transparent 0%,#000 22%);
 }
 .work__body{position:relative;z-index:1}
 .work__metric{position:relative;z-index:1;font-weight:500;
@@ -623,6 +633,23 @@ section{position:relative;z-index:1}
     if(document.hidden){ running=false; }
     else if(!running){ running=true; last=performance.now(); requestAnimationFrame(frame); }
   });
+})();
+</script>
+
+<!-- ===== Works metric "pop out" on scroll (touch / no-hover devices) ===== -->
+<script>
+(function(){
+  var works = document.querySelectorAll('.work');
+  if(!works.length || !('IntersectionObserver' in window)) return;
+  // Desktop uses :hover; on touch/no-hover devices, pop the metric when a card is centred.
+  var noHover = window.matchMedia('(hover: none)').matches || ('ontouchstart' in window);
+  if(!noHover) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      e.target.classList.toggle('pop', e.isIntersecting && e.intersectionRatio >= 0.5);
+    });
+  }, { threshold:[0,0.5,1], rootMargin:'-18% 0px -18% 0px' });
+  works.forEach(function(w){ io.observe(w); });
 })();
 </script>
 </body>
