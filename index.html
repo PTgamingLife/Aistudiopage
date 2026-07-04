@@ -802,12 +802,10 @@ section{position:relative;z-index:1}
 <!-- ===== Course enrolment modal + LINE Pay handoff ===== -->
 <script>
 (function(){
-  // ── Payment config ──────────────────────────────────────────────
-  // 貼上 LINE Pay 付款連結(定額 NT$2,500)。留空則暫時導向 LINE 由專人協助報名付款。
-  var LINE_PAY_URL = "";
-  var LINE_FALLBACK = "https://line.me/ti/p/ZC-w2BuPoi"; // 加 LINE 完成報名
-  var COURSE_NAME = "0 到 1 AI 快速上手變現課程";
-  var PRICE = 2500;
+  // ── Payment backend (Supabase Edge Function proxy → LINE Pay) ────
+  // 只放公開資訊:function 網址與 publishable key。真正的 LINE Pay 金鑰在後端 secrets。
+  var FUNC_BASE = "https://hhcubvixldieuwdeqnwc.supabase.co/functions/v1";
+  var PUBLISHABLE = "sb_publishable_S-fBRRvMYbhAq_FmxgTDbQ_qGeQKmwA";
   // ────────────────────────────────────────────────────────────────
 
   var modal = document.getElementById('enrollModal');
@@ -815,6 +813,7 @@ section{position:relative;z-index:1}
   var closeBtn = document.getElementById('modalClose');
   var form = document.getElementById('enrollForm');
   if(!modal || !openBtn) return;
+  var submitBtn = form.querySelector('button[type="submit"]');
 
   function open(){ modal.classList.add('open'); document.getElementById('f-name').focus(); }
   function close(){ modal.classList.remove('open'); }
@@ -826,26 +825,46 @@ section{position:relative;z-index:1}
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    var data = {
+    var payload = {
       name: form.name.value.trim(),
       phone: form.phone.value.trim(),
-      email: form.email.value.trim(),
-      course: COURSE_NAME,
-      price: PRICE
+      email: form.email.value.trim()
     };
-    // 暫存報名資料(方便日後串接後端/Supabase 或人工核對)
-    try { localStorage.setItem('enroll:'+Date.now(), JSON.stringify(data)); } catch(_){}
+    submitBtn.disabled = true;
+    var orig = submitBtn.textContent;
+    submitBtn.textContent = '前往付款中…';
 
-    if(LINE_PAY_URL){
-      // 導向 LINE Pay 付款連結
-      window.location.href = LINE_PAY_URL;
-    } else {
-      // 尚未設定付款連結 → 導向 LINE,由專人協助完成付款
-      var msg = encodeURIComponent('我要報名「'+COURSE_NAME+'」NT$'+PRICE+'\n姓名:'+data.name+'\n手機:'+data.phone+'\nEmail:'+data.email);
-      window.open(LINE_FALLBACK, '_blank', 'noopener');
-      close();
-    }
+    fetch(FUNC_BASE + '/linepay-request', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'apikey': PUBLISHABLE, 'Authorization': 'Bearer ' + PUBLISHABLE },
+      body: JSON.stringify(payload)
+    })
+    .then(function(r){ return r.json().then(function(d){ return { ok:r.ok, d:d }; }); })
+    .then(function(res){
+      if(res.ok && res.d.paymentUrl){
+        window.location.href = res.d.paymentUrl;   // 導向 LINE Pay 付款頁
+      } else {
+        throw new Error((res.d && res.d.error) || '付款啟動失敗');
+      }
+    })
+    .catch(function(err){
+      alert('抱歉,付款啟動失敗:' + err.message + '\n請稍後再試,或加 LINE 由專人協助報名。');
+      submitBtn.disabled = false;
+      submitBtn.textContent = orig;
+    });
   });
+
+  // 付款完成 / 取消後,LINE Pay 會帶 ?pay= 參數導回本頁
+  var pay = new URLSearchParams(location.search).get('pay');
+  var canceled = new URLSearchParams(location.search).get('canceled');
+  if(pay || canceled){
+    var msg = pay==='success' ? '🎉 報名成功!付款已完成,我們將以 Email / LINE 與你聯繫上課資訊。'
+            : pay==='failed'  ? '付款未完成,如已扣款請聯繫我們。可再試一次或加 LINE 協助。'
+            : canceled        ? '你已取消付款。隨時歡迎再回來報名 🙌'
+            :                   '付款過程發生問題,請再試一次或加 LINE 協助。';
+    setTimeout(function(){ alert(msg); }, 400);
+    history.replaceState(null, '', location.pathname);
+  }
 })();
 </script>
 </body>
