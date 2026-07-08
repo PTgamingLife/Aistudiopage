@@ -131,13 +131,19 @@ a{color:inherit;text-decoration:none}
 .scroll-hint::after{content:"";width:1px;height:42px;background:linear-gradient(var(--ink-faint),transparent);animation:lineflow 2.2s var(--ease) infinite}
 @keyframes lineflow{0%{transform:scaleY(.2);transform-origin:top;opacity:0}40%{opacity:1}100%{transform:scaleY(1);transform-origin:top;opacity:0}}
 
-/* ===== animated neon lines background ===== */
-#fxCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
-
 /* ===== generic section spacing ===== */
 section{position:relative;z-index:1}
 .footer{z-index:1}
 .pad{padding:clamp(6rem,14vw,11rem) 0}
+
+/* ===== Sales proof sections (semi-transparent image bg + dark veil) ===== */
+.sales{position:relative;overflow:hidden;text-align:center;border-top:1px solid var(--line)}
+.sales__bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;opacity:.32}
+.sales::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,10,12,.82),rgba(10,10,12,.55) 45%,rgba(10,10,12,.9))}
+.sales .wrap{position:relative;z-index:2;max-width:840px}
+.sales h2{font-weight:500;font-size:clamp(1.9rem,5vw,3.1rem);line-height:1.35;letter-spacing:.01em;margin-bottom:1.5rem}
+.sales h2 .hl{color:var(--gold-soft)}
+.sales p{color:var(--ink);opacity:.82;font-size:clamp(1.05rem,2.1vw,1.28rem);line-height:1.95;max-width:40em;margin-inline:auto}
 
 /* reveal base */
 .reveal{opacity:0;transform:translateY(38px)}
@@ -262,14 +268,24 @@ section{position:relative;z-index:1}
 .course-col.result li{counter-increment:res;align-items:flex-start}
 .course-col.result{counter-reset:res}
 .course-col.result li::before{content:counter(res);flex:0 0 auto;width:1.5em;height:1.5em;border-radius:50%;background:rgba(201,162,75,.15);color:var(--gold-soft);font-size:.78rem;display:grid;place-items:center;margin-top:.15em}
-/* enrol bar */
-.enroll{margin-top:3.5rem;border:1px solid rgba(201,162,75,.4);border-radius:20px;padding:2.4rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.6rem;background:linear-gradient(180deg,rgba(201,162,75,.1),transparent)}
-.enroll__price{display:flex;align-items:baseline;gap:.5rem}
-.enroll__price .cur{font-size:1.2rem;color:var(--ink-dim)}
-.enroll__price .amt{font-family:"Cormorant",serif;font-style:italic;font-weight:600;font-size:clamp(3rem,7vw,4.5rem);line-height:1;color:var(--gold-soft)}
-.enroll__price .per{color:var(--ink-dim);font-size:.95rem}
-.enroll__note{color:var(--ink-dim);font-size:.9rem;margin-top:.4rem}
-.enroll .btn{font-size:1.05rem;padding:1.1em 2.4em}
+/* enrol block */
+.enroll{margin-top:3.5rem;border:1px solid rgba(201,162,75,.4);border-radius:20px;padding:2.6rem 2.4rem;background:linear-gradient(180deg,rgba(201,162,75,.1),transparent)}
+.enroll__head{text-align:center;margin-bottom:2rem}
+.enroll__orig{font-size:1.05rem;color:var(--ink-dim)}
+.enroll__orig s{color:var(--ink-faint);text-decoration-thickness:1px}
+.enroll__orig b{color:var(--gold-soft);font-weight:500}
+.enroll__note{color:var(--ink-dim);font-size:.9rem;margin-top:.5rem}
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;max-width:640px;margin:0 auto}
+@media(max-width:620px){.plan-grid{grid-template-columns:1fr}}
+.plan{position:relative;border:1px solid var(--line);border-radius:16px;padding:2rem 1.6rem 1.8rem;text-align:center;background:rgba(255,255,255,.02);transition:border-color .5s var(--ease),transform .5s var(--ease)}
+.plan:hover{transform:translateY(-4px)}
+.plan--hot{border-color:rgba(201,162,75,.55);background:linear-gradient(180deg,rgba(201,162,75,.12),transparent)}
+.plan__tag{position:absolute;top:-.7rem;left:50%;transform:translateX(-50%);background:var(--gold);color:#0a0a0c;font-size:.72rem;letter-spacing:.1em;padding:.35em 1em;border-radius:999px;white-space:nowrap}
+.plan__name{font-size:1rem;letter-spacing:.1em;color:var(--gold-soft);margin-bottom:.6rem}
+.enroll__price{display:flex;align-items:baseline;justify-content:center;gap:.35rem;margin-bottom:1.4rem}
+.enroll__price .cur{font-size:1.1rem;color:var(--ink-dim)}
+.enroll__price .amt{font-family:"Cormorant",serif;font-style:italic;font-weight:600;font-size:clamp(2.8rem,7vw,3.8rem);line-height:1;color:var(--gold-soft)}
+.plan .btn{width:100%;justify-content:center;font-size:1rem;padding:1em 1.6em}
 /* modal */
 .modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:1.5rem;background:rgba(6,6,8,.75);backdrop-filter:blur(6px)}
 .modal.open{display:flex}
@@ -323,20 +339,15 @@ section{position:relative;z-index:1}
 </head>
 <body>
 
-<!-- ===== Animated neon lines background ===== -->
-<canvas id="fxCanvas" aria-hidden="true"></canvas>
-
 <!-- ===== Header ===== -->
 <header class="header" id="header">
   <div class="wrap header__inner">
     <a href="#top" class="logo" data-anchor><b>Aprico</b> <span>AI Studio</span></a>
     <nav class="nav">
-      <a href="#philosophy" data-anchor>理念</a>
-      <a href="#pricing" data-anchor>方案</a>
+      <a href="#proof" data-anchor>成果</a>
       <a href="#process" data-anchor>流程</a>
-      <a href="#works" data-anchor>作品</a>
       <a href="#course" data-anchor>課程</a>
-      <a href="#contact" class="btn btn-primary header__cta" data-anchor>預約諮詢</a>
+      <a href="https://line.me/ti/p/ZC-w2BuPoi" class="btn btn-primary header__cta" target="_blank" rel="noopener">預約諮詢</a>
     </nav>
   </div>
 </header>
@@ -347,72 +358,46 @@ section{position:relative;z-index:1}
   <div class="hero__veil"></div>
   <div class="wrap hero__content">
     <p class="eyebrow">AI for Real Business</p>
-    <h1>讓 AI 真正<br><span class="it">為你的營收</span>裝上引擎</h1>
-    <p class="hero__sub">不是炫技,而是落地。從營收、流程到團隊,把人工智慧導入你每天運轉的事業核心。</p>
+    <h1>AI <span class="it">變現</span>課</h1>
+    <p class="hero__sub">把 AI 變成替你賺錢、替你省時的即戰力。從零到能變現,一堂課帶你做出第一個成果。</p>
     <div class="hero__cta">
       <a href="https://line.me/ti/p/ZC-w2BuPoi" class="btn btn-primary" target="_blank" rel="noopener">預約免費諮詢</a>
-      <a href="#works" class="btn btn-ghost" data-anchor>看實戰成果</a>
+      <a href="#proof" class="btn btn-ghost" data-anchor>看真實成果</a>
     </div>
   </div>
   <div class="scroll-hint">Scroll</div>
 </section>
 
-<!-- ===== Philosophy ===== -->
-<section class="pad philo" id="philosophy">
+<!-- ===== Sales proof sections (每段半透明示意圖背景) ===== -->
+<section class="pad sales" id="proof">
+  <div class="sales__bg" style="background-image:url('images/sales1.png')"></div>
   <div class="wrap">
-    <p class="lead reveal">AI 不該只是<em>一個工具</em>,<br>而是讓你的事業<em>多出一雙手、一顆腦</em>。</p>
-    <p class="note reveal">我們不賣模型、不賣口號。我們陪你找到事業裡那個「最痛、最重複、最值錢」的環節,然後用 AI 把它做到自動、做到放大。</p>
+    <h2 class="reveal">別人用 AI 減少了 <span class="hl">60%</span> 的工作,你呢?</h2>
+    <p class="reveal">我幫某人力仲介製作的 AI 自動化系統,減少了 60% 的工作量;幫某大學做的行政自動化系統,上線一週即減少 10 小時以上的工作量。</p>
   </div>
 </section>
 
-<!-- ===== Pricing ===== -->
-<section class="pad" id="pricing">
+<section class="pad sales">
+  <div class="sales__bg" style="background-image:url('images/sales2.png')"></div>
   <div class="wrap">
-    <div class="head-block">
-      <p class="eyebrow reveal">Plans &amp; Pricing</p>
-      <h2 class="section-title reveal">選一個適合你<br>現在階段的起點</h2>
-    </div>
-    <div class="cards">
-      <article class="card reveal">
-        <p class="card__tag">Starter</p>
-        <h3 class="card__name">AI 健檢</h3>
-        <p class="card__price">NT$ 0 <small>/ 首次</small></p>
-        <p class="card__desc">一次深度諮詢,盤點你事業中最值得導入 AI 的三個切入點。</p>
-        <ul>
-          <li>90 分鐘策略訪談</li>
-          <li>流程痛點盤點</li>
-          <li>導入優先順序建議</li>
-        </ul>
-        <a href="#contact" class="btn btn-ghost" data-anchor>預約健檢</a>
-      </article>
+    <h2 class="reveal">別的老闆正用這個<span class="hl">降本增效</span>,<br>一樣的營業額能賺到更多錢</h2>
+    <p class="reveal">協助某人力仲介導入自動化系統,讓行政時間只剩下原本的五分之一。</p>
+  </div>
+</section>
 
-      <article class="card feat reveal">
-        <span class="badge">最受歡迎</span>
-        <p class="card__tag">Growth</p>
-        <h3 class="card__name">客製導入</h3>
-        <p class="card__price">NT$ 依範疇 <small>/ 專案</small></p>
-        <p class="card__desc">為單一場景量身打造 AI 解法,從開發到上線一條龍。</p>
-        <ul>
-          <li>客製工具 / 系統開發</li>
-          <li>資料串接與自動化</li>
-          <li>4–8 週交付與導入陪跑</li>
-        </ul>
-        <a href="#contact" class="btn btn-primary" data-anchor>討論專案</a>
-      </article>
+<section class="pad sales">
+  <div class="sales__bg" style="background-image:url('images/sales3.png')"></div>
+  <div class="wrap">
+    <h2 class="reveal">組織的強大,<span class="hl">AI 必不可少</span></h2>
+    <p class="reveal">用 AI 打造的 App,協助營養食品活動,單日營業額成長 3 倍。</p>
+  </div>
+</section>
 
-      <article class="card reveal">
-        <p class="card__tag">Scale</p>
-        <h3 class="card__name">長期夥伴</h3>
-        <p class="card__price">NT$ 月費制 <small>/ 顧問</small></p>
-        <p class="card__desc">把 AI 變成團隊內建能力,持續迭代、持續放大效益。</p>
-        <ul>
-          <li>常駐 AI 顧問</li>
-          <li>團隊訓練與工作流重塑</li>
-          <li>季度效益檢視</li>
-        </ul>
-        <a href="#contact" class="btn btn-ghost" data-anchor>成為夥伴</a>
-      </article>
-    </div>
+<section class="pad sales">
+  <div class="sales__bg" style="background-image:url('images/sales4.png')"></div>
+  <div class="wrap">
+    <h2 class="reveal">專業工作者<span class="hl">必備的放大器</span></h2>
+    <p class="reveal">運用 AI 導流技術,讓社群的流量在一天之內成長 60 倍。</p>
   </div>
 </section>
 
@@ -421,88 +406,24 @@ section{position:relative;z-index:1}
   <div class="wrap">
     <div class="head-block">
       <p class="eyebrow reveal">How We Work</p>
-      <h2 class="section-title reveal">三步,把 AI 變成<br>你能用的結果</h2>
+      <h2 class="section-title reveal">三步驟,把 AI<br>變成你的助手</h2>
     </div>
     <div class="steps">
       <div class="step reveal">
         <div class="step__no">01</div>
-        <h3>診斷</h3>
-        <p>深入你的日常營運,找出最痛、最重複、最有放大空間的環節,把模糊的「想用 AI」變成清楚的目標。</p>
+        <h3>問題核心診斷</h3>
+        <p>先找出你事業裡最痛、最重複、最值得被放大的那個環節,把模糊的「想用 AI」變成清楚可執行的目標。</p>
       </div>
       <div class="step reveal">
         <div class="step__no">02</div>
-        <h3>打造</h3>
-        <p>量身開發專屬工具與系統,串接你現有的資料與流程。不是套模板,而是真的貼合你的事業運作。</p>
+        <h3>打造系統流程</h3>
+        <p>量身打造專屬的 AI 系統與自動化流程,串接你現有的工具與資料,真正貼合你的日常運作。</p>
       </div>
       <div class="step reveal">
         <div class="step__no">03</div>
-        <h3>放大</h3>
-        <p>上線只是開始。我們陪你迭代、訓練團隊、追蹤數據,讓效益持續複利成長。</p>
+        <h3>放大結果</h3>
+        <p>上線只是開始。持續優化、追蹤數據,把省下的時間與成長的營收,一路複利放大。</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== Works ===== -->
-<section class="pad" id="works">
-  <div class="wrap">
-    <div class="head-block">
-      <p class="eyebrow reveal">Selected Work</p>
-      <h2 class="section-title reveal">說再多,<br>不如看真實成果</h2>
-    </div>
-    <div class="works-grid">
-      <article class="work reveal">
-        <span class="work__big" aria-hidden="true">3×</span>
-        <div class="work__body">
-          <p class="work__cat">Retail · Computer Vision</p>
-          <h3>FacialMonitor 智慧客流</h3>
-          <p>用人臉與客流辨識重構現場決策,在導入當天創造單日營收成長。</p>
-        </div>
-        <p class="work__metric">單日營收</p>
-      </article>
-
-      <article class="work reveal">
-        <span class="work__big" aria-hidden="true">即時</span>
-        <div class="work__body">
-          <p class="work__cat">Communication · NLP</p>
-          <h3>客製化翻譯軟體</h3>
-          <p>為團隊量身打造的即時翻譯工具,打破語言隔閡,讓跨語溝通零摩擦。</p>
-        </div>
-        <p class="work__metric">零摩擦溝通</p>
-      </article>
-
-      <article class="work reveal">
-        <span class="work__big" aria-hidden="true">整合</span>
-        <div class="work__body">
-          <p class="work__cat">Food &amp; Ops · ERP</p>
-          <h3>健康餐盒 ERP + 員工管理</h3>
-          <p>從訂單、備餐到人員排班一站整合的客製系統,把繁瑣後台變成自動運轉。</p>
-        </div>
-        <p class="work__metric">全流程自動化</p>
-      </article>
-
-      <article class="work reveal">
-        <span class="work__big" aria-hidden="true">1.5×</span>
-        <div class="work__body">
-          <p class="work__cat">People · Enablement</p>
-          <h3>28 天團隊 AI 訓練</h3>
-          <p>用 28 天把 AI 能力內建進團隊日常工作流,實測整體效益顯著提升。</p>
-        </div>
-        <p class="work__metric">團隊效益</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ===== Final CTA ===== -->
-<section class="pad final" id="contact">
-  <div class="wrap">
-    <p class="eyebrow reveal">Let's Begin</p>
-    <h2 class="reveal">準備好讓 AI <span class="it">為你工作</span>了嗎?</h2>
-    <p class="reveal">第一步永遠是最簡單的——一場免費諮詢,我們一起找出你事業裡最值得被放大的那件事。</p>
-    <div class="final__cta reveal">
-      <a href="https://line.me/ti/p/ZC-w2BuPoi" class="btn btn-primary" target="_blank" rel="noopener">預約免費諮詢</a>
-      <a href="#works" class="btn btn-ghost" data-anchor>再看一次成果</a>
     </div>
   </div>
 </section>
@@ -525,44 +446,13 @@ section{position:relative;z-index:1}
   </div>
 </section>
 
-<!-- ===== Testimonials (客戶見證:等客戶資訊上傳後替換) ===== -->
-<section class="pad testi" id="testi">
-  <div class="wrap">
-    <div class="head-block">
-      <p class="eyebrow reveal">Student Voices</p>
-      <h2 class="section-title reveal">學員怎麼說</h2>
-    </div>
-    <div class="testi-grid">
-      <blockquote class="testi-card reveal"><p>「見證內容佔位 — 上傳客戶資訊後替換。」</p><footer>學員 A · 職稱</footer></blockquote>
-      <blockquote class="testi-card reveal"><p>「見證內容佔位 — 上傳客戶資訊後替換。」</p><footer>學員 B · 職稱</footer></blockquote>
-      <blockquote class="testi-card reveal"><p>「見證內容佔位 — 上傳客戶資訊後替換。」</p><footer>學員 C · 職稱</footer></blockquote>
-    </div>
-  </div>
-</section>
-
-<!-- ===== Course enrolment ===== -->
+<!-- ===== Course info + fee + consult CTA ===== -->
 <section class="pad course" id="course">
   <div class="wrap">
-    <div class="head-block">
-      <span class="course__tag reveal">Cloud 101 · AI 系列課程</span>
-      <h2 class="section-title reveal">AI 教學 <span class="it">0 到 1</span><br>快速上手・變現課程</h2>
-      <p class="course__lead reveal">從零開始,打造你的 AI 實力!8 堂課帶你做出第一個能變現的 AI 成果。</p>
-    </div>
-
-    <!-- schedule -->
-    <div class="course-meta reveal">
-      <div>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-        <span>上課日期<br><b>2025 / 7 / 19(日)</b></span>
-      </div>
-      <div>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        <span>上課時間<br><b>10:00 – 17:00</b></span>
-      </div>
-      <div>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5a2 2 0 0 1 2-2h7v18H6a2 2 0 0 1-2-2zM20 5a2 2 0 0 0-2-2h-5v18h5a2 2 0 0 0 2-2z"/></svg>
-        <span>完整訓練<br><b>8 堂課 × 6 小時</b></span>
-      </div>
+    <div class="head-block" style="text-align:center;margin-inline:auto;max-width:760px">
+      <span class="course__tag reveal">AI 變現課</span>
+      <h2 class="section-title reveal">課程資訊</h2>
+      <p class="course__lead reveal">從零到能變現,帶你做出第一個能替你賺錢、替你省時的 AI 成果。</p>
     </div>
 
     <!-- syllabus -->
@@ -601,35 +491,20 @@ section{position:relative;z-index:1}
       </div>
     </div>
 
-    <!-- enrol -->
+    <!-- 費用 + 預約諮詢 -->
     <div class="enroll reveal">
-      <div>
-        <div class="enroll__price"><span class="cur">NT$</span><span class="amt">2,500</span><span class="per">/ 全課程</span></div>
-        <p class="enroll__note">名額有限・付款後以 LINE Pay 完成報名</p>
+      <div class="enroll__head">
+        <p class="enroll__orig">課程定價 <s>NT$ 24,000</s></p>
+        <p class="plan__name" style="margin-top:.9rem">早鳥特惠</p>
+        <div class="enroll__price" style="margin-top:.3rem"><span class="cur">NT$</span><span class="amt">14,900</span></div>
+        <p class="enroll__note">名額有限・想了解課程細節、確認適不適合你?先預約一次免費諮詢。</p>
       </div>
-      <button type="button" class="btn btn-primary" id="enrollBtn">立即報名・名額有限</button>
+      <div style="text-align:center">
+        <a href="https://line.me/ti/p/ZC-w2BuPoi" class="btn btn-primary" target="_blank" rel="noopener" style="font-size:1.05rem;padding:1.1em 2.6em">預約免費諮詢</a>
+      </div>
     </div>
   </div>
 </section>
-
-<!-- ===== Enrolment modal ===== -->
-<div class="modal" id="enrollModal" role="dialog" aria-modal="true" aria-labelledby="enrollTitle">
-  <div class="modal__box">
-    <button class="modal__close" id="modalClose" aria-label="關閉">&times;</button>
-    <h3 id="enrollTitle">報名課程</h3>
-    <p class="sub">0 到 1 AI 快速上手變現課程 · NT$ 2,500</p>
-    <form id="enrollForm">
-      <div class="field"><label for="f-name">姓名</label><input id="f-name" name="name" type="text" required autocomplete="name"></div>
-      <div class="field"><label for="f-phone">手機</label><input id="f-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel"></div>
-      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
-      <button type="submit" class="btn btn-primary">確認並前往付款 · NT$ 2,500</button>
-    </form>
-    <div class="modal__pay">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-      安全付款 · 由 LINE Pay 處理
-    </div>
-  </div>
-</div>
 
 <!-- ===== Footer ===== -->
 <footer class="footer">
@@ -715,119 +590,6 @@ section{position:relative;z-index:1}
 })();
 </script>
 
-<!-- ===== Neon slicing lines background ===== -->
-<script>
-(function(){
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var canvas = document.getElementById('fxCanvas');
-  if(!canvas || reduce) return;
-  var ctx = canvas.getContext('2d');
-  var W=0, H=0, DIAG=0, dpr=Math.min(window.devicePixelRatio||1, 2);
-
-  // neon palette (brand gold + cool accents)
-  var COLORS = [
-    [230,205,143],   // gold-soft
-    [201,162,75],    // gold
-    [230,205,143],
-    [150,225,255],   // cyan accent (occasional)
-    [255,236,190]    // warm white
-  ];
-
-  function resize(){
-    W = canvas.clientWidth; H = canvas.clientHeight;
-    DIAG = Math.sqrt(W*W + H*H);
-    canvas.width = Math.round(W*dpr); canvas.height = Math.round(H*dpr);
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  function rand(a,b){ return a + Math.random()*(b-a); }
-
-  function Line(){ this.reset(true); }
-  Line.prototype.reset = function(first){
-    // mostly horizontal / vertical lines, with a tiny jitter so they feel alive
-    var horiz = Math.random()<0.5;
-    var jitter = rand(-0.03, 0.03);
-    var ang = (horiz ? 0 : Math.PI/2) + jitter;
-    // keep lines in the outer 50% (top/bottom or left/right quarters); avoid central core
-    function outer(size){ return (Math.random()<0.5 ? rand(0.05,0.25) : rand(0.75,0.95)) * size; }
-    var cx, cy;
-    if(horiz){ cy = outer(H); cx = W*0.5; }   // horizontal line sits in top/bottom band
-    else     { cx = outer(W); cy = H*0.5; }   // vertical line sits in left/right band
-    var dx = Math.cos(ang), dy = Math.sin(ang);
-    this.p0 = { x: cx - dx*DIAG, y: cy - dy*DIAG };
-    this.p1 = { x: cx + dx*DIAG, y: cy + dy*DIAG };
-    this.col = COLORS[(Math.random()<0.18?3:Math.floor(rand(0,3.999)))|0];
-    this.w = rand(0.8,1.8);
-    this.drawDur = rand(620,980);   // ms: slice grows across
-    this.holdDur = rand(220,520);   // ms: full line glows
-    this.fadeDur = rand(520,900);   // ms: fade out
-    this.delay   = first ? rand(0,2600) : rand(500,2800);
-    this.t = -this.delay;           // negative = waiting
-  };
-  Line.prototype.step = function(dt){
-    this.t += dt;
-    if(this.t < 0) return; // still delayed
-    var total = this.drawDur + this.holdDur + this.fadeDur;
-    if(this.t > total){ this.reset(false); return; }
-
-    var p0=this.p0, p1=this.p1, prog, alpha, endX, endY, headX=null, headY=null;
-    if(this.t < this.drawDur){            // slicing in
-      prog = this.t/this.drawDur;
-      var e = 1-Math.pow(1-prog,3);       // easeOutCubic
-      endX = p0.x + (p1.x-p0.x)*e;
-      endY = p0.y + (p1.y-p0.y)*e;
-      headX = endX; headY = endY;
-      alpha = 0.85;
-    } else if(this.t < this.drawDur+this.holdDur){ // hold full
-      endX = p1.x; endY = p1.y; alpha = 0.9;
-    } else {                              // fade out
-      var fp = (this.t - this.drawDur - this.holdDur)/this.fadeDur;
-      endX = p1.x; endY = p1.y; alpha = 0.9*(1-fp);
-    }
-
-    var c=this.col, rgb=c[0]+','+c[1]+','+c[2];
-    ctx.save();
-    ctx.globalCompositeOperation='lighter';
-    // glow halo
-    ctx.shadowBlur=16; ctx.shadowColor='rgba('+rgb+','+(alpha*0.9)+')';
-    ctx.strokeStyle='rgba('+rgb+','+(alpha*0.45)+')';
-    ctx.lineWidth=this.w*2.4;
-    ctx.beginPath(); ctx.moveTo(p0.x,p0.y); ctx.lineTo(endX,endY); ctx.stroke();
-    // bright core
-    ctx.shadowBlur=0;
-    ctx.strokeStyle='rgba('+Math.min(255,c[0]+40)+','+Math.min(255,c[1]+40)+','+Math.min(255,c[2]+40)+','+alpha+')';
-    ctx.lineWidth=this.w;
-    ctx.beginPath(); ctx.moveTo(p0.x,p0.y); ctx.lineTo(endX,endY); ctx.stroke();
-    // leading head spark while slicing
-    if(headX!==null){
-      ctx.shadowBlur=22; ctx.shadowColor='rgba('+rgb+',1)';
-      ctx.fillStyle='rgba(255,255,255,'+alpha+')';
-      ctx.beginPath(); ctx.arc(headX,headY,this.w*1.7,0,Math.PI*2); ctx.fill();
-    }
-    ctx.restore();
-  };
-
-  var lines=[]; for(var i=0;i<3;i++) lines.push(new Line());
-
-  var last=performance.now(), running=true;
-  function frame(now){
-    if(!running){ return; }
-    var dt=Math.min(now-last,50); last=now;
-    ctx.clearRect(0,0,W,H);
-    for(var i=0;i<lines.length;i++) lines[i].step(dt);
-    requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
-
-  // pause when tab hidden (saves battery, avoids dt jumps)
-  document.addEventListener('visibilitychange', function(){
-    if(document.hidden){ running=false; }
-    else if(!running){ running=true; last=performance.now(); requestAnimationFrame(frame); }
-  });
-})();
-</script>
 
 <!-- ===== Works metric "pop out" on scroll (touch / no-hover devices) ===== -->
 <script>
@@ -856,16 +618,29 @@ section{position:relative;z-index:1}
   // ────────────────────────────────────────────────────────────────
 
   var modal = document.getElementById('enrollModal');
-  var openBtn = document.getElementById('enrollBtn');
+  var openBtns = document.querySelectorAll('.enrollBtn');
   var closeBtn = document.getElementById('modalClose');
   var form = document.getElementById('enrollForm');
-  if(!modal || !openBtn) return;
-  var submitBtn = form.querySelector('button[type="submit"]');
+  if(!modal || !openBtns.length) return;
+  var submitBtn = document.getElementById('modalSubmit');
+  var subEl = document.getElementById('modalSub');
+  var planInput = document.getElementById('f-plan');
+  var COURSE = '0 到 1 AI 快速上手變現課程';
 
   function open(){ modal.classList.add('open'); document.getElementById('f-name').focus(); }
   function close(){ modal.classList.remove('open'); }
 
-  openBtn.addEventListener('click', open);
+  // 各方案按鈕:記住選到的方案,更新彈窗顯示的方案與金額
+  openBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      planInput.value = b.getAttribute('data-plan');
+      var label = b.getAttribute('data-label');
+      var amt = b.getAttribute('data-amt');
+      subEl.textContent = COURSE + ' · ' + label + ' NT$ ' + amt;
+      submitBtn.textContent = '確認並前往付款 · NT$ ' + amt;
+      open();
+    });
+  });
   closeBtn.addEventListener('click', close);
   modal.addEventListener('click', function(e){ if(e.target===modal) close(); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape' && modal.classList.contains('open')) close(); });
@@ -875,7 +650,8 @@ section{position:relative;z-index:1}
     var payload = {
       name: form.name.value.trim(),
       phone: form.phone.value.trim(),
-      email: form.email.value.trim()
+      email: form.email.value.trim(),
+      plan: planInput.value
     };
     submitBtn.disabled = true;
     var orig = submitBtn.textContent;
