@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 麻瓜課 · 公益 AI 講座</title>
+<meta name="description" content="AI 麻瓜課 — 1 小時讓你覺得「AI 很簡單嘛!」零基礎也 OK,1 小時就上手。8/6 晚上,課程 300 元扣除場地費全數捐出。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f6f0e6'/%3E%3Ctext x='32' y='45' font-size='34' text-anchor='middle'%3E%F0%9F%AA%84%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,600;1,600&family=Noto+Serif+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f0e6;--card:#fffdf8;--ink:#2e2822;--ink-dim:#6b6152;--ink-faint:#9a8f7d;
+  --gold:#c9a24b;--gold-deep:#a9822f;--accent:#e0855f;--line:rgba(46,40,34,.12);
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"Noto Serif TC",serif;font-weight:300;line-height:1.85;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(70% 45% at 85% 0%,rgba(224,133,95,.12),transparent 60%),radial-gradient(60% 40% at 5% 100%,rgba(201,162,75,.14),transparent 60%);}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--gold);color:#fff}
+.wrap{width:90%;max-width:760px;margin-inline:auto}
+.it{font-family:"Cormorant",serif;font-style:italic}
+
+.badge{display:inline-flex;align-items:center;gap:.5em;font-size:.9rem;letter-spacing:.06em;color:var(--gold-deep);
+  background:rgba(201,162,75,.12);border:1px solid rgba(201,162,75,.35);border-radius:999px;padding:.4em 1.1em}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;font-family:inherit;font-size:1.05rem;font-weight:500;letter-spacing:.04em;
+  padding:1em 2.2em;border-radius:999px;border:1px solid transparent;cursor:pointer;transition:all .4s var(--ease)}
+.btn-primary{background:var(--gold);color:#fff;border-color:var(--gold);box-shadow:0 8px 24px rgba(201,162,75,.28)}
+.btn-primary:hover{background:var(--gold-deep);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold-deep)}
+.btn:disabled{opacity:.6;cursor:default;transform:none}
+
+/* hero */
+.hero{text-align:center;padding:clamp(3.5rem,10vw,6rem) 0 clamp(2rem,5vw,3rem)}
+.hero .wand{font-size:2.4rem;margin-bottom:.6rem}
+.hero h1{font-weight:600;font-size:clamp(2.8rem,11vw,5rem);line-height:1.05;letter-spacing:.02em;margin:1rem 0}
+.hero h1 .ai{font-family:"Cormorant",serif;font-style:italic;color:var(--gold-deep)}
+.hero .tag{font-size:clamp(1.3rem,4.2vw,1.9rem);font-weight:500;color:var(--ink);margin:.4rem 0 .6rem}
+.hero .tag b{color:var(--gold-deep);font-weight:600}
+.hero .sub{color:var(--ink-dim);font-size:clamp(1rem,2.4vw,1.2rem);max-width:24em;margin:0 auto 2rem}
+.hero .cta{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
+
+/* info card */
+.section{padding:clamp(1.5rem,4vw,2.5rem) 0}
+.info{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:clamp(1.6rem,4vw,2.4rem);box-shadow:0 20px 50px rgba(46,40,34,.06)}
+.info-row{display:flex;align-items:flex-start;gap:1rem;padding:1rem 0;border-bottom:1px dashed var(--line)}
+.info-row:last-child{border-bottom:none}
+.info-row .ico{font-size:1.5rem;line-height:1.4;flex:0 0 auto}
+.info-row .k{font-size:.82rem;letter-spacing:.08em;color:var(--ink-faint)}
+.info-row .v{font-size:1.15rem;font-weight:500}
+.info-row .v small{font-weight:300;color:var(--ink-dim);font-size:.92rem}
+.donate{color:var(--accent);font-weight:600}
+
+/* who / take-away */
+.blk{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:clamp(1.6rem,4vw,2.4rem)}
+.blk h2{font-size:clamp(1.3rem,4vw,1.7rem);font-weight:600;margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.blk ul{list-style:none;display:flex;flex-direction:column;gap:.9rem}
+.blk li{display:flex;gap:.7rem;font-size:1.05rem;line-height:1.6}
+.blk li .dot{color:var(--gold);flex:0 0 auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+@media(max-width:640px){.two{grid-template-columns:1fr}}
+
+/* charity note */
+.charity{text-align:center;background:linear-gradient(180deg,rgba(224,133,95,.1),transparent);border:1px solid rgba(224,133,95,.3);border-radius:22px;padding:clamp(1.8rem,5vw,2.6rem)}
+.charity .heart{font-size:2rem}
+.charity h2{font-size:clamp(1.3rem,4vw,1.7rem);font-weight:600;margin:.6rem 0}
+.charity p{color:var(--ink-dim);max-width:30em;margin:0 auto}
+
+/* final cta */
+.final{text-align:center;padding:clamp(2.5rem,6vw,4rem) 0 clamp(3rem,7vw,5rem)}
+.final .price{display:flex;align-items:baseline;gap:.4rem;justify-content:center;margin-bottom:.4rem}
+.final .price .cur{font-size:1.1rem;color:var(--ink-dim)}
+.final .price .amt{font-family:"Cormorant",serif;font-style:italic;font-weight:600;font-size:clamp(3rem,10vw,4.4rem);line-height:1;color:var(--gold-deep)}
+.final .note{color:var(--ink-dim);font-size:.95rem;margin-bottom:1.8rem}
+.final .note b{color:var(--accent)}
+
+.footer{border-top:1px solid var(--line);padding:2.4rem 0;text-align:center;color:var(--ink-faint);font-size:.85rem}
+.footer a{color:var(--gold-deep)}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:1.5rem;background:rgba(46,40,34,.45);backdrop-filter:blur(5px)}
+.modal.open{display:flex}
+.modal__box{width:100%;max-width:420px;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:2.2rem;position:relative;box-shadow:0 30px 70px rgba(46,40,34,.2)}
+.modal__box h3{font-size:1.4rem;font-weight:600;margin-bottom:.3rem}
+.modal__box p.sub{color:var(--ink-dim);font-size:.92rem;margin-bottom:1.5rem}
+.modal__close{position:absolute;top:1rem;right:1.2rem;background:none;border:none;color:var(--ink-faint);font-size:1.7rem;line-height:1;cursor:pointer}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.85rem;color:var(--ink-dim);margin-bottom:.35rem}
+.field input{width:100%;padding:.85em 1em;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);font-family:inherit;font-size:1rem}
+.field input:focus{outline:none;border-color:var(--gold)}
+.modal .btn{width:100%;margin-top:.5rem}
+.modal__pay{display:flex;align-items:center;justify-content:center;gap:.5rem;font-size:.8rem;color:var(--ink-faint);margin-top:1rem}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">🤍 公益 AI 講座</span>
+    <div class="wand">🪄</div>
+    <h1><span class="ai">AI</span> 麻瓜課</h1>
+    <p class="tag">1 小時,讓你覺得<b>「AI 很簡單嘛!」</b></p>
+    <p class="sub">沒有基礎、沒學過程式都沒關係 —— 這堂課專為「AI 麻瓜」設計,1 小時就上手。</p>
+    <div class="cta">
+      <button type="button" class="btn btn-primary enrollBtn">我要報名 · NT$300</button>
+      <a href="#info" class="btn btn-ghost">看講座資訊</a>
+    </div>
+  </div>
+</header>
+
+<!-- Info -->
+<section class="section" id="info">
+  <div class="wrap">
+    <div class="info">
+      <div class="info-row">
+        <div class="ico">📅</div>
+        <div><div class="k">時間</div><div class="v">8/6（四）晚上 7:30 – 9:00 <small>· 共 90 分鐘</small></div></div>
+      </div>
+      <div class="info-row">
+        <div class="ico">📍</div>
+        <div><div class="k">地點</div><div class="v">Happ. 小樹屋 · 禾雀分館</div></div>
+      </div>
+      <div class="info-row">
+        <div class="ico">🤍</div>
+        <div><div class="k">費用</div><div class="v">NT$ 300 <small class="donate">· 扣除場地費用後,全數捐出</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Who / take-away -->
+<section class="section">
+  <div class="wrap two">
+    <div class="blk">
+      <h2>🙋 這堂課給誰</h2>
+      <ul>
+        <li><span class="dot">◆</span>常聽 AI 卻不知從何開始的你</li>
+        <li><span class="dot">◆</span>試過但覺得「好難、算了」的人</li>
+        <li><span class="dot">◆</span>想用 AI 幫自己省時間的上班族 / 老闆</li>
+        <li><span class="dot">◆</span>完全零基礎、只帶一支手機也 OK</li>
+      </ul>
+    </div>
+    <div class="blk">
+      <h2>✨ 1 小時你會帶走</h2>
+      <ul>
+        <li><span class="dot">◆</span>3 個馬上能用的 AI 生活/工作技巧</li>
+        <li><span class="dot">◆</span>問對問題的訣竅(Prompt 入門)</li>
+        <li><span class="dot">◆</span>破除「AI 很難」的心理門檻</li>
+        <li><span class="dot">◆</span>離場時做出你的第一個 AI 小成果</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Charity -->
+<section class="section">
+  <div class="wrap">
+    <div class="charity">
+      <div class="heart">🤍</div>
+      <h2>這是一堂公益課</h2>
+      <p>報名費 NT$300 在扣除場地成本後<b>全數捐出</b>。學會 AI 的同時,也一起把善意傳出去。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="final">
+  <div class="wrap">
+    <div class="price"><span class="cur">NT$</span><span class="amt">300</span></div>
+    <p class="note">名額有限 · 費用<b>扣除場地費後全數捐出</b> · LINE Pay 線上報名</p>
+    <button type="button" class="btn btn-primary enrollBtn">我要報名 · NT$300</button>
+  </div>
+</section>
+
+<footer class="footer">
+  © 2026 Aprico AI Studio · AI 麻瓜課 &nbsp;·&nbsp; <a href="index.html">回主站</a>
+</footer>
+
+<!-- Report modal -->
+<div class="modal" id="enrollModal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="modal__box">
+    <button class="modal__close" id="modalClose" aria-label="關閉">&times;</button>
+    <h3 id="mTitle">報名 AI 麻瓜課 🪄</h3>
+    <p class="sub">8/6（四）19:30–21:00 · Happ. 小樹屋 禾雀分館 · NT$300(公益）</p>
+    <form id="enrollForm">
+      <input type="hidden" name="plan" value="muggle">
+      <div class="field"><label for="f-name">姓名</label><input id="f-name" name="name" type="text" required autocomplete="name"></div>
+      <div class="field"><label for="f-phone">手機</label><input id="f-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel"></div>
+      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
+      <button type="submit" class="btn btn-primary" id="modalSubmit">確認並前往付款 · NT$300</button>
+    </form>
+    <div class="modal__pay">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+      安全付款 · 由 LINE Pay 處理
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var FUNC_BASE="https://hhcubvixldieuwdeqnwc.supabase.co/functions/v1";
+  var PUBLISHABLE="sb_publishable_S-fBRRvMYbhAq_FmxgTDbQ_qGeQKmwA";
+  var modal=document.getElementById('enrollModal');
+  var openBtns=document.querySelectorAll('.enrollBtn');
+  var closeBtn=document.getElementById('modalClose');
+  var form=document.getElementById('enrollForm');
+  var submitBtn=document.getElementById('modalSubmit');
+  function open(){modal.classList.add('open');document.getElementById('f-name').focus();}
+  function close(){modal.classList.remove('open');}
+  openBtns.forEach(function(b){b.addEventListener('click',open);});
+  closeBtn.addEventListener('click',close);
+  modal.addEventListener('click',function(e){if(e.target===modal)close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))close();});
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var payload={name:form.name.value.trim(),phone:form.phone.value.trim(),email:form.email.value.trim(),plan:'muggle'};
+    submitBtn.disabled=true;var orig=submitBtn.textContent;submitBtn.textContent='前往付款中…';
+    fetch(FUNC_BASE+'/linepay-request',{method:'POST',headers:{'Content-Type':'application/json','apikey':PUBLISHABLE},body:JSON.stringify(payload)})
+      .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
+      .then(function(res){
+        if(res.ok&&res.d.paymentUrl){window.location.href=res.d.paymentUrl;}
+        else{throw new Error((res.d&&res.d.error)||'付款啟動失敗');}
+      })
+      .catch(function(err){alert('抱歉,報名啟動失敗:'+err.message+'\n請稍後再試。');submitBtn.disabled=false;submitBtn.textContent=orig;});
+  });
+
+  var pay=new URLSearchParams(location.search).get('pay');
+  if(pay){
+    var msg=pay==='success'?'🎉 報名成功!謝謝你一起做公益 🤍 我們會以 Email / LINE 通知講座細節。'
+          :pay==='failed'?'付款未完成,如已扣款請聯繫我們,或再試一次。'
+          :pay==='canceled'?'你已取消報名。隨時歡迎再回來 🙌'
+          :'付款過程發生問題,請再試一次。';
+    setTimeout(function(){alert(msg);},350);
+    history.replaceState(null,'',location.pathname);
+  }
+})();
+</script>
+</body>
+</html>
