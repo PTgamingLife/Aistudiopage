@@ -8,7 +8,10 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f6f0e6'/%3E%3Ctext x='32' y='45' font-size='34' text-anchor='middle'%3E%F0%9F%AA%84%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,600;1,600&family=Noto+Serif+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- 霞鶩文楷:手寫楷體,溫暖繪本感 -->
+<link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont/lxgwwenkaitc-regular.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont/lxgwwenkaitc-bold.css" rel="stylesheet">
 <style>
 :root{
   --bg:#f6f0e6;--card:#fffdf8;--ink:#2e2822;--ink-dim:#6b6152;--ink-faint:#9a8f7d;
@@ -16,12 +19,12 @@
   --ease:cubic-bezier(.22,1,.36,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:"Noto Serif TC",serif;font-weight:300;line-height:1.85;-webkit-font-smoothing:antialiased;
+body{background:var(--bg);color:var(--ink);font-family:"LXGW WenKai TC","Noto Serif TC",serif;font-weight:400;line-height:1.85;-webkit-font-smoothing:antialiased;
   background-image:radial-gradient(70% 45% at 85% 0%,rgba(224,133,95,.12),transparent 60%),radial-gradient(60% 40% at 5% 100%,rgba(201,162,75,.14),transparent 60%);}
 a{color:inherit;text-decoration:none}
 ::selection{background:var(--gold);color:#fff}
 .wrap{width:90%;max-width:760px;margin-inline:auto}
-.it{font-family:"Cormorant",serif;font-style:italic}
+.it{font-family:"Cinzel",serif;font-style:normal;letter-spacing:.04em}
 
 /* ===== 3D scroll-driven magic scene background ===== */
 #scene{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;perspective:1200px}
@@ -55,7 +58,7 @@ body > *:not(#scene){position:relative;z-index:1}
 .hero{text-align:center;padding:clamp(3.5rem,10vw,6rem) 0 clamp(2rem,5vw,3rem)}
 .hero .wand{font-size:2.4rem;margin-bottom:.6rem}
 .hero h1{font-weight:600;font-size:clamp(2.8rem,11vw,5rem);line-height:1.05;letter-spacing:.02em;margin:1rem 0}
-.hero h1 .ai{font-family:"Cormorant",serif;font-style:italic;color:var(--gold-deep)}
+.hero h1 .ai{font-family:"Cinzel",serif;font-style:normal;letter-spacing:.04em;color:var(--gold-deep)}
 .hero .tag{font-size:clamp(1.3rem,4.2vw,1.9rem);font-weight:500;color:var(--ink);margin:.4rem 0 .6rem}
 .hero .tag b{color:var(--gold-deep);font-weight:600}
 .hero .sub{color:var(--ink-dim);font-size:clamp(1rem,2.4vw,1.2rem);max-width:24em;margin:0 auto 2rem}
@@ -92,7 +95,7 @@ body > *:not(#scene){position:relative;z-index:1}
 .final{text-align:center;padding:clamp(2.5rem,6vw,4rem) 0 clamp(3rem,7vw,5rem)}
 .final .price{display:flex;align-items:baseline;gap:.4rem;justify-content:center;margin-bottom:.4rem}
 .final .price .cur{font-size:1.1rem;color:var(--ink-dim)}
-.final .price .amt{font-family:"Cormorant",serif;font-style:italic;font-weight:600;font-size:clamp(3rem,10vw,4.4rem);line-height:1;color:var(--gold-deep)}
+.final .price .amt{font-family:"Cinzel",serif;font-style:normal;letter-spacing:.04em;font-weight:600;font-size:clamp(3rem,10vw,4.4rem);line-height:1;color:var(--gold-deep)}
 .final .note{color:var(--ink-dim);font-size:.95rem;margin-bottom:1.8rem}
 .final .note b{color:var(--accent)}
 
@@ -119,10 +122,11 @@ body > *:not(#scene){position:relative;z-index:1}
 <!-- 3D magic scene: 魔法棒點電腦 → 花 → 蝴蝶 → 金錢(隨捲軸推進) -->
 <div id="scene" aria-hidden="true">
   <video id="magicVid" src="images/muggle/magic.mp4" muted playsinline preload="auto" loop></video>
-  <div class="frame" data-i="0" style="background-image:url('images/muggle/f1.png')"></div>
-  <div class="frame" data-i="1" style="background-image:url('images/muggle/f2.png')"></div>
-  <div class="frame" data-i="2" style="background-image:url('images/muggle/f3.png')"></div>
-  <div class="frame" data-i="3" style="background-image:url('images/muggle/f4.png')"></div>
+  <!-- fallback 圖只在影片載入失敗時才由 JS 掛上,平常不會下載,省 ~4.9MB -->
+  <div class="frame" data-i="0" data-src="images/muggle/f1.png"></div>
+  <div class="frame" data-i="1" data-src="images/muggle/f2.png"></div>
+  <div class="frame" data-i="2" data-src="images/muggle/f3.png"></div>
+  <div class="frame" data-i="3" data-src="images/muggle/f4.png"></div>
 </div>
 
 <!-- Hero -->
@@ -132,9 +136,9 @@ body > *:not(#scene){position:relative;z-index:1}
     <div class="wand">🪄</div>
     <h1><span class="ai">AI</span> 麻瓜課</h1>
     <p class="tag">1 小時,讓你覺得<b>「AI 很簡單嘛!」</b></p>
-    <p class="sub">沒有基礎、沒學過程式都沒關係 —— 這堂課專為「AI 麻瓜」設計,1 小時就上手。</p>
+    <p class="sub">課程結束前,讓每個人用手機<br>就能做出你的專屬個人網頁</p>
     <div class="cta">
-      <a href="https://line.me/ti/p/ZC-w2BuPoi" class="btn btn-primary" target="_blank" rel="noopener">加 LINE 報名 · NT$300</a>
+      <a href="https://line.me/ti/p/ZC-w2BuPoi" class="btn btn-primary" target="_blank" rel="noopener">加 LINE 報名</a>
       <a href="#info" class="btn btn-ghost">看講座資訊</a>
     </div>
   </div>
@@ -201,7 +205,7 @@ body > *:not(#scene){position:relative;z-index:1}
   <div class="wrap">
     <div class="price"><span class="cur">NT$</span><span class="amt">300</span></div>
     <p class="note">名額有限 · 費用<b>扣除場地費後全數捐出</b> · 加 LINE 由專人為你完成報名</p>
-    <a href="https://line.me/ti/p/ZC-w2BuPoi" class="btn btn-primary" target="_blank" rel="noopener">加 LINE 報名 · NT$300</a>
+    <a href="https://line.me/ti/p/ZC-w2BuPoi" class="btn btn-primary" target="_blank" rel="noopener">加 LINE 報名</a>
   </div>
 </section>
 
@@ -244,8 +248,15 @@ body > *:not(#scene){position:relative;z-index:1}
     window.addEventListener('scroll', onScroll, {passive:true});
     window.addEventListener('resize', onScroll);
   });
-  // 影片載入失敗 → 保留原本的 4 幕圖序列(下方 fallback 會接手)
-  vid.addEventListener('error', function(){ ready = false; });
+  // 影片載入失敗 → 這時才下載 4 幕圖,交給下方 fallback 接手
+  vid.addEventListener('error', function(){
+    ready = false;
+    scene.classList.remove('has-video');
+    document.querySelectorAll('#scene .frame').forEach(function(f){
+      if(f.dataset.src) f.style.backgroundImage = "url('" + f.dataset.src + "')";
+    });
+    window.dispatchEvent(new Event('scroll'));
+  });
   vid.load();
 
 })();
