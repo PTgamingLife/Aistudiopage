@@ -23,6 +23,20 @@ a{color:inherit;text-decoration:none}
 .wrap{width:90%;max-width:760px;margin-inline:auto}
 .it{font-family:"Cormorant",serif;font-style:italic}
 
+/* ===== 3D scroll-driven magic scene background ===== */
+#scene{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;perspective:1200px}
+#scene .frame{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  opacity:0;will-change:opacity,transform;
+  transition:opacity .45s linear;
+  transform-style:preserve-3d;
+}
+#scene::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(70% 60% at 50% 45%,rgba(246,240,230,.55),rgba(246,240,230,.86) 70%,rgba(246,240,230,.96));}
+body > *:not(#scene){position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){#scene .frame{transition:none}}
+
 .badge{display:inline-flex;align-items:center;gap:.5em;font-size:.9rem;letter-spacing:.06em;color:var(--gold-deep);
   background:rgba(201,162,75,.12);border:1px solid rgba(201,162,75,.35);border-radius:999px;padding:.4em 1.1em}
 
@@ -69,6 +83,7 @@ a{color:inherit;text-decoration:none}
 .charity .heart{font-size:2rem}
 .charity h2{font-size:clamp(1.3rem,4vw,1.7rem);font-weight:600;margin:.6rem 0}
 .charity p{color:var(--ink-dim);max-width:30em;margin:0 auto}
+.charity p + p{margin-top:.5rem}
 
 /* final cta */
 .final{text-align:center;padding:clamp(2.5rem,6vw,4rem) 0 clamp(3rem,7vw,5rem)}
@@ -98,6 +113,14 @@ a{color:inherit;text-decoration:none}
 </head>
 <body>
 
+<!-- 3D magic scene: 魔法棒點電腦 → 花 → 蝴蝶 → 金錢(隨捲軸推進) -->
+<div id="scene" aria-hidden="true">
+  <div class="frame" data-i="0" style="background-image:url('images/muggle/f1.png')"></div>
+  <div class="frame" data-i="1" style="background-image:url('images/muggle/f2.png')"></div>
+  <div class="frame" data-i="2" style="background-image:url('images/muggle/f3.png')"></div>
+  <div class="frame" data-i="3" style="background-image:url('images/muggle/f4.png')"></div>
+</div>
+
 <!-- Hero -->
 <header class="hero">
   <div class="wrap">
@@ -107,7 +130,7 @@ a{color:inherit;text-decoration:none}
     <p class="tag">1 小時,讓你覺得<b>「AI 很簡單嘛!」</b></p>
     <p class="sub">沒有基礎、沒學過程式都沒關係 —— 這堂課專為「AI 麻瓜」設計,1 小時就上手。</p>
     <div class="cta">
-      <button type="button" class="btn btn-primary enrollBtn">我要報名 · NT$300</button>
+      <a href="https://line.me/ti/p/ZC-w2BuPoi" class="btn btn-primary" target="_blank" rel="noopener">加 LINE 報名 · NT$300</a>
       <a href="#info" class="btn btn-ghost">看講座資訊</a>
     </div>
   </div>
@@ -151,7 +174,7 @@ a{color:inherit;text-decoration:none}
         <li><span class="dot">◆</span>3 個馬上能用的 AI 生活/工作技巧</li>
         <li><span class="dot">◆</span>問對問題的訣竅(Prompt 入門)</li>
         <li><span class="dot">◆</span>破除「AI 很難」的心理門檻</li>
-        <li><span class="dot">◆</span>離場時做出你的第一個 AI 小成果</li>
+        <li><span class="dot">◆</span><b>課程結束前,做出你的個人專屬網頁</b></li>
       </ul>
     </div>
   </div>
@@ -163,7 +186,8 @@ a{color:inherit;text-decoration:none}
     <div class="charity">
       <div class="heart">🤍</div>
       <h2>這是一堂公益課</h2>
-      <p>報名費 NT$300 在扣除場地成本後<b>全數捐出</b>。學會 AI 的同時,也一起把善意傳出去。</p>
+      <p>報名費 NT$300 在扣除場地成本後<b>全數捐出</b></p>
+      <p>學會 AI 的同時,也一起把善意傳出去</p>
     </div>
   </div>
 </section>
@@ -172,8 +196,8 @@ a{color:inherit;text-decoration:none}
 <section class="final">
   <div class="wrap">
     <div class="price"><span class="cur">NT$</span><span class="amt">300</span></div>
-    <p class="note">名額有限 · 費用<b>扣除場地費後全數捐出</b> · LINE Pay 線上報名</p>
-    <button type="button" class="btn btn-primary enrollBtn">我要報名 · NT$300</button>
+    <p class="note">名額有限 · 費用<b>扣除場地費後全數捐出</b> · 加 LINE 由專人為你完成報名</p>
+    <a href="https://line.me/ti/p/ZC-w2BuPoi" class="btn btn-primary" target="_blank" rel="noopener">加 LINE 報名 · NT$300</a>
   </div>
 </section>
 
@@ -181,64 +205,37 @@ a{color:inherit;text-decoration:none}
   © 2026 Aprico AI Studio · AI 麻瓜課 &nbsp;·&nbsp; <a href="index.html">回主站</a>
 </footer>
 
-<!-- Report modal -->
-<div class="modal" id="enrollModal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
-  <div class="modal__box">
-    <button class="modal__close" id="modalClose" aria-label="關閉">&times;</button>
-    <h3 id="mTitle">報名 AI 麻瓜課 🪄</h3>
-    <p class="sub">8/6（四）19:30–21:00 · Happ. 小樹屋 禾雀分館 · NT$300(公益）</p>
-    <form id="enrollForm">
-      <input type="hidden" name="plan" value="muggle">
-      <div class="field"><label for="f-name">姓名</label><input id="f-name" name="name" type="text" required autocomplete="name"></div>
-      <div class="field"><label for="f-phone">手機</label><input id="f-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel"></div>
-      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
-      <button type="submit" class="btn btn-primary" id="modalSubmit">確認並前往付款 · NT$300</button>
-    </form>
-    <div class="modal__pay">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-      安全付款 · 由 LINE Pay 處理
-    </div>
-  </div>
-</div>
-
 <script>
+/* 捲軸驅動的 3D 魔法場景:魔法棒點電腦 → 花 → 蝴蝶 → 金錢 */
 (function(){
-  var FUNC_BASE="https://hhcubvixldieuwdeqnwc.supabase.co/functions/v1";
-  var PUBLISHABLE="sb_publishable_S-fBRRvMYbhAq_FmxgTDbQ_qGeQKmwA";
-  var modal=document.getElementById('enrollModal');
-  var openBtns=document.querySelectorAll('.enrollBtn');
-  var closeBtn=document.getElementById('modalClose');
-  var form=document.getElementById('enrollForm');
-  var submitBtn=document.getElementById('modalSubmit');
-  function open(){modal.classList.add('open');document.getElementById('f-name').focus();}
-  function close(){modal.classList.remove('open');}
-  openBtns.forEach(function(b){b.addEventListener('click',open);});
-  closeBtn.addEventListener('click',close);
-  modal.addEventListener('click',function(e){if(e.target===modal)close();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))close();});
+  var frames = Array.prototype.slice.call(document.querySelectorAll('#scene .frame'));
+  if(!frames.length) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var n = frames.length, ticking = false;
 
-  form.addEventListener('submit',function(e){
-    e.preventDefault();
-    var payload={name:form.name.value.trim(),phone:form.phone.value.trim(),email:form.email.value.trim(),plan:'muggle'};
-    submitBtn.disabled=true;var orig=submitBtn.textContent;submitBtn.textContent='前往付款中…';
-    fetch(FUNC_BASE+'/linepay-request',{method:'POST',headers:{'Content-Type':'application/json','apikey':PUBLISHABLE},body:JSON.stringify(payload)})
-      .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
-      .then(function(res){
-        if(res.ok&&res.d.paymentUrl){window.location.href=res.d.paymentUrl;}
-        else{throw new Error((res.d&&res.d.error)||'付款啟動失敗');}
-      })
-      .catch(function(err){alert('抱歉,報名啟動失敗:'+err.message+'\n請稍後再試。');submitBtn.disabled=false;submitBtn.textContent=orig;});
-  });
-
-  var pay=new URLSearchParams(location.search).get('pay');
-  if(pay){
-    var msg=pay==='success'?'🎉 報名成功!謝謝你一起做公益 🤍 我們會以 Email / LINE 通知講座細節。'
-          :pay==='failed'?'付款未完成,如已扣款請聯繫我們,或再試一次。'
-          :pay==='canceled'?'你已取消報名。隨時歡迎再回來 🙌'
-          :'付款過程發生問題,請再試一次。';
-    setTimeout(function(){alert(msg);},350);
-    history.replaceState(null,'',location.pathname);
+  function update(){
+    ticking = false;
+    var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    var p = Math.min(1, Math.max(0, window.scrollY / max));   // 0 → 1
+    var pos = p * (n - 1);                                     // 目前在第幾幕
+    for(var i = 0; i < n; i++){
+      var d = Math.abs(pos - i);
+      var op = d >= 1 ? 0 : 1 - d;                             // 相鄰兩幕交叉淡入淡出
+      frames[i].style.opacity = op.toFixed(3);
+      if(!reduce){
+        // 輕微 3D 推近 + 上浮,讓場景有立體推進感
+        var z = (pos - i) * -60;
+        var y = (pos - i) * -18;
+        var s = 1.06 - Math.min(d, 1) * 0.05;
+        frames[i].style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,' + z.toFixed(1) + 'px) scale(' + s.toFixed(3) + ')';
+      }
+    }
   }
+  function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  update();
 })();
 </script>
 </body>
