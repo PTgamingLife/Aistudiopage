@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI 變現課 · 報名</title>
-<meta name="description" content="AI 變現課報名頁。原價 24,000,早鳥 12,900 / 特價 14,900,LINE Pay 線上付款。">
+<meta name="description" content="AI 變現課報名頁。單價 NT$24,000,早鳥優惠 NT$17,800,LINE Pay 線上付款。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0c'/%3E%3Ctext x='32' y='46' font-family='Georgia,serif' font-style='italic' font-weight='600' font-size='42' fill='%23e6cd8f' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,6 +72,21 @@ a{color:inherit;text-decoration:none}
 .plan .btn{width:100%}
 .trust{text-align:center;color:var(--ink-faint);font-size:.85rem;margin-top:2rem;display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap}
 
+/* 付款方式分隔 + 匯款卡 */
+.or{display:flex;align-items:center;gap:1rem;max-width:640px;margin:2.6rem auto 1.6rem;color:var(--ink-faint);font-size:.85rem;letter-spacing:.1em}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.bank{max-width:640px;margin:0 auto;border:1px solid var(--line);border-radius:16px;padding:1.8rem 1.6rem;background:rgba(255,255,255,.02)}
+.bank h3{font-size:1.05rem;font-weight:600;color:var(--gold-soft);margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.bank dl{display:grid;grid-template-columns:auto 1fr;gap:.7rem 1.2rem;margin:0}
+.bank dt{color:var(--ink-faint);font-size:.85rem;letter-spacing:.06em;white-space:nowrap}
+.bank dd{margin:0;font-size:1rem;font-weight:500;word-break:break-all}
+.bank dd .acct{font-family:"Cormorant",serif;font-size:1.25rem;letter-spacing:.04em;color:var(--gold-soft)}
+.bank__copy{margin-left:.6rem;font-family:inherit;font-size:.75rem;letter-spacing:.06em;color:var(--ink-dim);background:transparent;border:1px solid var(--line);border-radius:999px;padding:.25em .9em;cursor:pointer;transition:all .3s var(--ease);vertical-align:middle}
+.bank__copy:hover{border-color:var(--gold);color:var(--gold-soft)}
+.bank__note{margin-top:1.4rem;padding-top:1.2rem;border-top:1px dashed var(--line);color:var(--ink-dim);font-size:.9rem;line-height:1.8}
+.bank__note b{color:var(--gold-soft)}
+.bank__note a{color:var(--gold-soft);text-decoration:underline;text-underline-offset:3px}
+
 /* modal */
 .modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:1.5rem;background:rgba(6,6,8,.75);backdrop-filter:blur(6px)}
 .modal.open{display:flex}
@@ -128,25 +143,49 @@ a{color:inherit;text-decoration:none}
 <section class="section" id="pricing">
   <div class="wrap">
     <div class="price-head">
-      <p class="orig">課程定價 <s>NT$ 24,000</s> · 限時優惠</p>
+      <p class="orig">早鳥限時優惠 · <b>現省 NT$ 6,200</b></p>
     </div>
     <div class="plan-grid">
       <div class="plan plan--hot">
         <span class="plan__tag">早鳥限量</span>
         <p class="plan__name">早鳥價</p>
-        <div class="plan__price"><span class="cur">NT$</span><span class="amt">12,900</span></div>
-        <button type="button" class="btn btn-primary enrollBtn" data-plan="earlybird" data-amt="12,900" data-label="早鳥價">立即報名</button>
+        <div class="plan__price"><span class="cur">NT$</span><span class="amt">17,800</span></div>
+        <button type="button" class="btn btn-primary enrollBtn" data-plan="earlybird" data-amt="17,800" data-label="早鳥價">立即報名</button>
       </div>
       <div class="plan">
-        <p class="plan__name">特價</p>
-        <div class="plan__price"><span class="cur">NT$</span><span class="amt">14,900</span></div>
-        <button type="button" class="btn btn-ghost enrollBtn" data-plan="regular" data-amt="14,900" data-label="特價">立即報名</button>
+        <p class="plan__name">單價</p>
+        <div class="plan__price"><span class="cur">NT$</span><span class="amt">24,000</span></div>
+        <button type="button" class="btn btn-ghost enrollBtn" data-plan="regular" data-amt="24,000" data-label="單價">立即報名</button>
       </div>
     </div>
     <p class="trust">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
       線上安全付款 · 由 LINE Pay 處理
     </p>
+
+    <!-- 匯款(ATM / 網銀轉帳) -->
+    <div class="or">或使用銀行匯款</div>
+    <div class="bank">
+      <h3>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 10l9-6 9 6M5 10v9h14v-9M9 19v-5h6v5"/></svg>
+        匯款資訊
+      </h3>
+      <dl>
+        <dt>戶名</dt>
+        <dd>陳柏廷</dd>
+        <dt>銀行</dt>
+        <dd>郵局(代號 <b>700</b>)· 大埔分行</dd>
+        <dt>帳號</dt>
+        <dd>
+          <span class="acct" id="acctNo">0311339-0122920</span>
+          <button type="button" class="bank__copy" id="copyAcct">複製</button>
+        </dd>
+      </dl>
+      <p class="bank__note">
+        匯款金額:早鳥價 <b>NT$ 17,800</b> / 單價 <b>NT$ 24,000</b><br>
+        匯款完成後,請<a href="https://line.me/ti/p/ZC-w2BuPoi" target="_blank" rel="noopener">加 LINE</a> 告知<b>姓名 + 帳號末五碼</b>,我們確認後即完成報名。
+      </p>
+    </div>
   </div>
 </section>
 
@@ -227,6 +266,18 @@ a{color:inherit;text-decoration:none}
           :'付款過程發生問題,請再試一次或加 LINE 協助。';
     setTimeout(function(){alert(msg);},350);
     history.replaceState(null,'',location.pathname);
+  }
+
+  // 複製匯款帳號
+  var copyBtn=document.getElementById('copyAcct');
+  if(copyBtn){
+    copyBtn.addEventListener('click',function(){
+      var no=document.getElementById('acctNo').textContent.trim();
+      var done=function(){ copyBtn.textContent='已複製 ✓'; setTimeout(function(){copyBtn.textContent='複製';},1800); };
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(no).then(done,function(){window.prompt('請手動複製帳號:',no);});
+      }else{ window.prompt('請手動複製帳號:',no); }
+    });
   }
 })();
 </script>
