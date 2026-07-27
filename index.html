@@ -313,6 +313,7 @@ section{position:relative;z-index:1}
 .ph{aspect-ratio:4/3;border:1px dashed rgba(201,162,75,.35);border-radius:14px;display:grid;place-items:center;background:linear-gradient(155deg,rgba(255,255,255,.03),transparent);overflow:hidden;margin:0}
 .ph span{font-family:"Cormorant",serif;font-style:italic;color:var(--ink-faint);letter-spacing:.08em}
 .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph:has(img){border-style:solid;border-color:rgba(201,162,75,.18)}
 .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
 @media(max-width:820px){.testi-grid{grid-template-columns:1fr}}
 .testi-card{margin:0;border:1px solid var(--line);border-radius:16px;padding:2rem 1.8rem;background:rgba(255,255,255,.02)}
@@ -440,10 +441,10 @@ section{position:relative;z-index:1}
       <h2 class="section-title reveal">課程實況</h2>
     </div>
     <div class="gallery-grid">
-      <figure class="ph reveal"><span>課程照片 1</span></figure>
-      <figure class="ph reveal"><span>課程照片 2</span></figure>
-      <figure class="ph reveal"><span>課程照片 3</span></figure>
-      <figure class="ph reveal"><span>課程照片 4</span></figure>
+      <figure class="ph reveal"><img src="images/live/live1.jpg" alt="講師在白板前拆解 Prompt 的輸入與輸出" loading="lazy" decoding="async" width="1400" height="1050"></figure>
+      <figure class="ph reveal"><img src="images/live/live2.jpg" alt="課堂上帶學員現場動手做，把方法變成自己的成果" loading="lazy" decoding="async" width="1400" height="1050"></figure>
+      <figure class="ph reveal"><img src="images/live/live3.jpg" alt="學員跟著投影片實作 Prompt 六元素" loading="lazy" decoding="async" width="1400" height="1050"></figure>
+      <figure class="ph reveal"><img src="images/live/live4.jpg" alt="課後小組討論與交流" loading="lazy" decoding="async" width="1400" height="1050"></figure>
     </div>
   </div>
 </section>
