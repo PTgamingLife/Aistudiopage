@@ -216,7 +216,7 @@ a{color:inherit;text-decoration:none}
 
 <script>
 (function(){
-  var FUNC_BASE = "https://hhcubvixldieuwdeqnwc.supabase.co/functions/v1";
+  var PAYMENT_API = "https://pay-api.apricostudio.shop";
   var PUBLISHABLE = "sb_publishable_S-fBRRvMYbhAq_FmxgTDbQ_qGeQKmwA";
   var LINE = "https://line.me/ti/p/ZC-w2BuPoi";
 
@@ -248,7 +248,7 @@ a{color:inherit;text-decoration:none}
     e.preventDefault();
     var payload={name:form.name.value.trim(),phone:form.phone.value.trim(),email:form.email.value.trim(),plan:planInput.value};
     submitBtn.disabled=true;var orig=submitBtn.textContent;submitBtn.textContent='前往付款中…';
-    fetch(FUNC_BASE+'/linepay-request',{method:'POST',headers:{'Content-Type':'application/json','apikey':PUBLISHABLE,'Authorization':'Bearer '+PUBLISHABLE},body:JSON.stringify(payload)})
+    fetch(PAYMENT_API+'/api/payments/request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
       .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
       .then(function(res){
         if(res.ok&&res.d.paymentUrl){window.location.href=res.d.paymentUrl;}
