@@ -1,0 +1,23 @@
+[Unit]
+Description=Aprico LINE Pay Gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=linepay
+Group=linepay
+WorkingDirectory=/opt/linepay-gateway
+EnvironmentFile=/etc/linepay-gateway/linepay.env
+Environment=LINEPAY_DB_PATH=/var/lib/linepay-gateway/orders.db
+ExecStart=/opt/linepay-gateway/venv/bin/gunicorn --workers 1 --threads 4 --timeout 60 --bind 127.0.0.1:8000 app:app
+Restart=on-failure
+RestartSec=5
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/linepay-gateway
+
+[Install]
+WantedBy=multi-user.target
