@@ -195,7 +195,7 @@ def payment_request():
     }
 
     try:
-        result = linepay_post("/v3/payments/request", payload, timeout=45)
+        result = linepay_post("/v4/payments/request", payload, timeout=45)
     except Exception:
         app.logger.exception("LINE Pay payment request failed for order %s", order_id)
         db_execute(
@@ -240,7 +240,7 @@ def payment_confirm():
     if order["status"] == "paid":
         return frontend_redirect("success")
 
-    uri = f"/v3/payments/{transaction_id}/confirm"
+    uri = f"/v4/payments/{transaction_id}/confirm"
     payload = {"amount": order["amount"], "currency": "TWD"}
     try:
         result = linepay_post(uri, payload, timeout=50)
@@ -275,4 +275,3 @@ def payment_cancel():
 
 
 init_db()
-
