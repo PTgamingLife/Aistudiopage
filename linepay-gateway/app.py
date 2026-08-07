@@ -215,15 +215,21 @@ def payment_request():
 
     info = result["info"]
     transaction_id = str(info.get("transactionId", ""))
-    payment_url = (info.get("paymentUrl") or {}).get("web")
-    if not transaction_id or not payment_url:
+    payment_urls = info.get("paymentUrl") or {}
+    payment_url_web = payment_urls.get("web")
+    payment_url_app = payment_urls.get("app")
+    if not transaction_id or not payment_url_web:
         return jsonify(error="LINE Pay 回傳資料不完整"), 502
 
     db_execute(
         "UPDATE orders SET transaction_id=?, status='reserved', updated_at=? WHERE order_id=?",
         (transaction_id, int(time.time()), order_id),
     )
-    return jsonify(paymentUrl=payment_url)
+    return jsonify(
+        paymentUrl=payment_url_web,
+        paymentUrlWeb=payment_url_web,
+        paymentUrlApp=payment_url_app,
+    )
 
 
 @app.get("/api/payments/confirm")
