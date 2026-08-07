@@ -251,7 +251,7 @@ a{color:inherit;text-decoration:none}
     fetch(PAYMENT_API+'/api/payments/request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
       .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
       .then(function(res){
-        if(res.ok&&res.d.paymentUrl){window.location.href=res.d.paymentUrl;}
+        var isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);\n        var paymentUrl=(isMobile&&res.d.paymentUrlApp)||res.d.paymentUrlWeb||res.d.paymentUrl;\n        if(res.ok&&paymentUrl){window.location.href=paymentUrl;}
         else{throw new Error((res.d&&res.d.error)||'付款啟動失敗');}
       })
       .catch(function(err){
